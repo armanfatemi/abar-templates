@@ -9,14 +9,14 @@ objects:
       openshift.io/display-name: MySQL
   spec:
     tags:
-    - name: '5.6'
+    - name: '5.7'
       annotations:
-        openshift.io/display-name: MySQL 5.6
-        description: Provides a MySQL 5.6 database on CentOS 7. For more information
-          about using this database image, including OpenShift considerations, see https://github.com/sclorg/mysql-container/tree/master/5.6.
+        openshift.io/display-name: MySQL 5.7
+        description: Provides a MySQL 5.7 database on CentOS 7. For more information
+          about using this database image, including OpenShift considerations, see https://github.com/sclorg/mysql-container/tree/master/5.7.
         iconClass: icon-mysql-database
         tags: mysql
-        version: '5.6'
+        version: '5.7'
       from:
         kind: DockerImage
-        name: centos/mysql-56-centos7:latest
+        name: docker.io/centos/mysql-57-centos7:latest
