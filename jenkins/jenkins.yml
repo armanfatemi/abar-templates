@@ -23,7 +23,7 @@ message: |-
 
     It can take up to 10mins for Jenkins to start due to plugins being installed. You can check the pod
     logs to see progress. If the deployment fails, click on Deploy to try again.
-    Once the pod is ready, login to the web interface on: https://${ROUTE_PREFIX}.abar.cloud
+    Once the pod is ready, login to the web interface on: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
 objects:
 
@@ -34,7 +34,7 @@ objects:
       haproxy.router.openshift.io/timeout: 4m
     name: jenkins
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: web
     tls:
@@ -165,7 +165,7 @@ parameters:
   required: true
   value: 2Gi
 - name: ROUTE_PREFIX
-  displayName: Route prefix for .abar.cloud
+  displayName: Route prefix for .<PRIVATE_ROUTE_HOSTNAME_HERE>
   description: Leave it empty for a random prefix. If you need to customize it, we recommend "jenkins-MyProjectHere".
     Must be unique across all projects, and contain only lower-case letters, numbers and dashes.
   generate: expression

@@ -8,7 +8,7 @@ metadata:
     iconClass: icon-redis
     tags: database,administration,redis
 message: |-
-  Once the application is running, you can view it at https://${ROUTE_PREFIX}.abar.cloud
+  Once the application is running, you can view it at https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
         Commander HTTP User: admin
     Commander HTTP Password: ${HTTP_PASSWORD}
@@ -103,7 +103,7 @@ objects:
       app: "${SERVICE_NAME}"
     name: "${SERVICE_NAME}"
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: 8080-tcp
     tls:
