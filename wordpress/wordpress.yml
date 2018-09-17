@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 message: |-
-  Your WordPress installation will be available at: https://${ROUTE_PREFIX}.abar.cloud. It might take a few minutes to become available.
+  Your WordPress installation will be available at: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>. It might take a few minutes to become available.
   For more information about using this template, see https://docs.abarcloud.com/additional-services/wordpress.html
 metadata:
   annotations:
@@ -36,7 +36,7 @@ objects:
     annotations:
       template.openshift.io/expose-uri: "https://{.spec.host}{.spec.path}"
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: 8080
     tls:
@@ -207,8 +207,8 @@ parameters:
   required: false
 
 - name: ROUTE_PREFIX
-  displayName: Route prefix for abar.cloud
-  description: Each app gets a free abar.cloud domain, such as myapp-myproject.abar.cloud.
+  displayName: Route prefix for <PRIVATE_ROUTE_HOSTNAME_HERE>
+  description: Each app gets a free <PRIVATE_ROUTE_HOSTNAME_HERE> domain, such as myapp-myproject.<PRIVATE_ROUTE_HOSTNAME_HERE>.
     Must be unique across all projects, and contain only lower-case letters, numbers and dashes.
   value: myapp-myproject
   required: true

@@ -5,7 +5,7 @@ message: |-
 
          Username: ${ELASTICSEARCH_USER}
          Password: ${ELASTICSEARCH_PASSWORD}
-   Kibana URL: https://${ROUTE_PREFIX}.abar.cloud
+   Kibana URL: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
 metadata:
   annotations:
@@ -41,7 +41,7 @@ objects:
       annotations:
         template.openshift.io/expose-uri: "https://{.spec.host}{.spec.path}"
     spec:
-      host: ${ROUTE_PREFIX}.abar.cloud
+      host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
       port:
         targetPort: 5601
       tls:
@@ -111,7 +111,7 @@ parameters:
     value: kibana
 
   - name: ROUTE_PREFIX
-    displayName: Route prefix for abar.cloud
+    displayName: Route prefix for <PRIVATE_ROUTE_HOSTNAME_HERE>
     description: Must be unique across all projects, and contain only lower-case letters, numbers and dashes.
     required: true
     value: kibana-myproject
