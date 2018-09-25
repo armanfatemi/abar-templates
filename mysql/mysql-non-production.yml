@@ -91,8 +91,8 @@ objects:
               - MYSQL_PWD="$MYSQL_PASSWORD" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE
                 -e 'SELECT 1'
           livenessProbe:
-            timeoutSeconds: 1
-            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            initialDelaySeconds: 240
             tcpSocket:
               port: 3306
           env:
