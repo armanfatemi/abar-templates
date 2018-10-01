@@ -3,7 +3,10 @@
 NAMESPACE=openshift
 
 # Default routes' host
-PRIVATE_ROUTE_HOSTNAME_HERE=apps.private.REGION.DOMAIN
+PRIVATE_ROUTE_HOSTNAME=apps.private.REGION.DOMAIN
+
+# Default docker repository, can be switched to a mirror
+DOCKER_REPOSITORY_HOSTNAME=docker.io
 
 # Specify the repository and ref-spec (i.e. branch) to build the images from.
 REPOSITORY_URL=https://github.com/abarcloud/abar-templates.git
