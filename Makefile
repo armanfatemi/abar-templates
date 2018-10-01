@@ -12,7 +12,8 @@ endif
 	@echo "Processing and uploading imagestream in namespace $(NAMESPACE): ${@}" && \
 	cat $@ \
     | sed "s|[<]NAMESPACE_HERE[>]|$(NAMESPACE)|" \
-    | sed "s|[<]PRIVATE_ROUTE_HOSTNAME_HERE[>]|$(PRIVATE_ROUTE_HOSTNAME_HERE)|" \
+    | sed "s|[<]PRIVATE_ROUTE_HOSTNAME_HERE[>]|$(PRIVATE_ROUTE_HOSTNAME)|" \
+		| sed "s|[<]DOCKER_REPOSITORY_HOSTNAME_HERE[>]|$(DOCKER_REPOSITORY_HOSTNAME)|" \
     | sed "s|[<]REPOSITORY_URL_HERE[>]|$(REPOSITORY_URL)|" \
     | sed "s|[<]REPOSITORY_REF_HERE[>]|$(REPOSITORY_REF)|" \
     | oc process -n $(NAMESPACE) -f - \
@@ -22,7 +23,8 @@ endif
 	@echo "Uploading template in namespace $(NAMESPACE): ${@}" && \
 	cat $@ \
 	  | sed "s|[<]NAMESPACE_HERE[>]|$(NAMESPACE)|" \
-	  | sed "s|[<]PRIVATE_ROUTE_HOSTNAME_HERE[>]|$(PRIVATE_ROUTE_HOSTNAME_HERE)|" \
+	  | sed "s|[<]PRIVATE_ROUTE_HOSTNAME_HERE[>]|$(PRIVATE_ROUTE_HOSTNAME)|" \
+		| sed "s|[<]DOCKER_REPOSITORY_HOSTNAME_HERE[>]|$(DOCKER_REPOSITORY_HOSTNAME)|" \
 	  | sed "s|[<]REPOSITORY_URL_HERE[>]|$(REPOSITORY_URL)|" \
 	  | sed "s|[<]REPOSITORY_REF_HERE[>]|$(REPOSITORY_REF)|" \
 	  | oc apply -n $(NAMESPACE) -f -
