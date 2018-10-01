@@ -25,6 +25,8 @@ message: |-
     logs to see progress. If the deployment fails, click on Deploy to try again.
     Once the pod is ready, login to the web interface on: https://${ROUTE_PREFIX}.abar.cloud
 
+    See docs at https://docs.abarcloud.com/learn/continuous-integration.html
+
 objects:
 
 - apiVersion: v1
