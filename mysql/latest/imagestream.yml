@@ -19,4 +19,10 @@ objects:
         version: '5.6'
       from:
         kind: DockerImage
-        name: docker.io/centos/mysql-56-centos7:latest
+        name: ${SOURCE_IMAGE}
+parameters:
+- name: IMAGE
+  displayName: Source image
+  description: Source image can be overridden.
+  value: docker.io/centos/mysql-56-centos7:latest
+  required: false
