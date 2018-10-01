@@ -5,26 +5,25 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: mongodb
+    name: jenkins
 
 - apiVersion: v1
   kind: BuildConfig
   metadata:
-    name: mongodb-latest
+    name: jenkins-latest
   spec:
     output:
       to:
         kind: ImageStreamTag
-        name: 'mongodb:3.6'
+        name: 'jenkins:2-centos7-oc-v3.10'
     runPolicy: Serial
     source:
-      contextDir: "latest"
       git:
-        ref: master
-        uri: 'https://github.com/abarcloud/mongodb-container.git'
+        ref: '<REPOSITORY_REF_HERE>'
+        uri: '<REPOSITORY_URL_HERE>'
+      contextDir: 'jenkins/latest'
       type: Git
     strategy:
       type: Docker
     triggers:
       - type: ConfigChange
-

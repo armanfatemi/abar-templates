@@ -3,20 +3,19 @@ kind: Template
 message: |-
   The following service(s) have been created in your project: ${SERVICE_NAME}.
 
-         Username: ${ELASTICSEARCH_USER}
-         Password: ${ELASTICSEARCH_PASSWORD}
-   Kibana URL: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
+            Email: ${DEFAULT_USER}
+         Password: ${DEFAULT_PASSWORD}
+     pgAdmin4 URL: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
 metadata:
   annotations:
-    description: |-
-      Kibana v6.2.4 service to connect to an Elasticsearch cluster.
-    iconClass: icon-elastic
-    openshift.io/display-name: Kibana
-    tags: database,analytics,kibana
-    template.openshift.io/documentation-url: https://docs.abarcloud.com/additional-services/elasticsearch.html#kibana
+    openshift.io/display-name: pgAdmin4 for PostgreSQL
     template.openshift.io/provider-display-name: AbarCloud
-  name: kibana
+    description: |-
+      pgAdmin4 v3.0 is an Open Source administration and development platform for PostgreSQL.
+    iconClass: icon-postgresql
+    tags: database,postgresql,pgadmin4
+  name: pgadmin4
 
 objects:
   - kind: Service
@@ -24,26 +23,24 @@ objects:
     metadata:
       name: "${SERVICE_NAME}"
       labels:
-        name: "${SERVICE_NAME}"
+        app: "${SERVICE_NAME}"
     spec:
       ports:
-        - name: kibana
-          port: 5601
+        - name: pgadmin4
+          port: 5050
       selector:
-        name: "${SERVICE_NAME}"
+        app: "${SERVICE_NAME}"
 
   - apiVersion: v1
     kind: Route
     metadata:
-      name: ${SERVICE_NAME}
+      name: "${SERVICE_NAME}"
       labels:
-        app: ${SERVICE_NAME}
-      annotations:
-        template.openshift.io/expose-uri: "https://{.spec.host}{.spec.path}"
+        app: "${SERVICE_NAME}"
     spec:
       host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
       port:
-        targetPort: 5601
+        targetPort: 5050
       tls:
         termination: edge
         insecureEdgeTerminationPolicy: Redirect
@@ -62,36 +59,34 @@ objects:
     spec:
       replicas: 1
       selector:
-        name: "${SERVICE_NAME}"
+        app: "${SERVICE_NAME}"
       strategy:
         type: Rolling
       template:
         metadata:
           labels:
-            name: "${SERVICE_NAME}"
+            app: "${SERVICE_NAME}"
         spec:
           containers:
-          - name: kibana
-            image: "docker-registry.default.svc:5000/<NAMESPACE_HERE>/kibana:6.2.4"
+          - name: pgadmin4
+            image: "docker-registry.default.svc:5000/<NAMESPACE_HERE>/pgadmin4:3"
             imagePullPolicy: IfNotPresent
             env:
-            - name: ELASTICSEARCH_URL
-              value: ${ELASTICSEARCH_URL}
-            - name: ELASTICSEARCH_USER
-              value: ${ELASTICSEARCH_USER}
-            - name: ELASTICSEARCH_PASSWORD
-              value: ${ELASTICSEARCH_PASSWORD}
+            - name: DEFAULT_USER
+              value: ${DEFAULT_USER}
+            - name: DEFAULT_PASSWORD
+              value: ${DEFAULT_PASSWORD}
             ports:
-            - containerPort: 5601
+            - containerPort: 5050
               protocol: TCP
             livenessProbe:
               initialDelaySeconds: 60
               tcpSocket:
-                port: 5601
+                port: 5050
               timeoutSeconds: 1
             readinessProbe:
               tcpSocket:
-                port: 5601
+                port: 5050
               initialDelaySeconds: 3
               timeoutSeconds: 1
             resources:
@@ -108,30 +103,29 @@ parameters:
     description: The name used when creating the required deployment config,
       service etc. Must be unique and contain only lower-case letters.
     required: true
-    value: kibana
+    value: pgadmin4
 
   - name: ROUTE_PREFIX
     displayName: Route prefix for <PRIVATE_ROUTE_HOSTNAME_HERE>
-    description: Must be unique across all projects, and contain only lower-case letters, numbers and dashes.
+    description: Must be unique across all projects, and contain only lower-case letters, numbers and dashes. Leave this empty if you'd like it to be auto-generated.
     required: true
-    value: kibana-myproject
+    from: 'pgadmin4-[a-z0-9]{10}'
+    generate: expression
 
   - name: MEMORY_LIMIT
     displayName: Memory Limit
-    description: Maximum amount of memory Kibana's container can use, e.g. 500Mi, 1000Mi.
+    description: Maximum amount of memory pgAdmin's container can use, e.g. 500Mi, 1000Mi.
     required: true
-    value: 1000Mi
+    value: 200Mi
 
-  - name: ELASTICSEARCH_URL
-    displayName: Elasticsearch URL
-    description: Based on internal hostname and port. For example http://elasticsearch.myproject.svc:9200
+  - name: DEFAULT_USER
+    displayName: pgAdmin Default User
     required: true
+    value: "pgadmin4@pgadmin.org"
 
-  - name: ELASTICSEARCH_USER
-    displayName: Elasticsearch User
+  - name: DEFAULT_PASSWORD
+    displayName: pgAdmin Default Password
+    description: This is NOT your PostgreSQL password. This is used to access pgAdmin web UI. Leave this empty if you'd like it to be auto-generated.
     required: true
-    value: elastic
-
-  - name: ELASTICSEARCH_PASSWORD
-    displayName: Elasticsearch Password
-    required: true
+    from: '[a-zA-Z0-9]{16}'
+    generate: expression

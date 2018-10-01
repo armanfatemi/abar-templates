@@ -3,12 +3,12 @@ kind: Template
 metadata:
   name: pgweb
   annotations:
-    openshift.io/display-name: PostgreSQL web client
-    description: Pgweb enables you to view your schema and run full SQL queries from within a web UI.
+    openshift.io/display-name: pgweb for PostgreSQL
+    description: pgweb enables you to view your schema and run full SQL queries from within a web UI.
     iconClass: icon-postgresql
     tags: database,postgresql
 message:
-  Once the application is running, you can view it at https://${ROUTE_PREFIX}.abar.cloud
+  Once the application is running, you can view it at https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
   For increased security, do not share this URL outside of your team, and scale the deployment to 0 pods when you do not need to access your database.
 objects:
 
@@ -102,7 +102,7 @@ objects:
       app: pgweb
     name: pgweb
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: 8081-tcp
     tls:

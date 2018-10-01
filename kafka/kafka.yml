@@ -101,7 +101,7 @@ objects:
             value: ${KAFKA_MIN_INSYNC_REPLICAS}
           - name: ZOOKEEPER_HOST
             value: ${ZOOKEEPER_HOST}
-          image: "172.30.150.55:5000/<NAMESPACE_HERE>/kafka:1.0.0"
+          image: "docker-registry.default.svc:5000/<NAMESPACE_HERE>/kafka:1.0.0"
           imagePullPolicy: Always
           name: kafka
           ports:
@@ -165,7 +165,7 @@ parameters:
   description: The internal hostname and port of Zookeeper service. For example zookeeper.svc:2181
   name: ZOOKEEPER_HOST
   required: true
-  value: zookeeper.svc:2181
+  value: zookeeper:2181
 - displayName: Volume Capacity
   description: Volume space available for data, e.g. 1Gi, 5Gi.
   name: VOLUME_CAPACITY

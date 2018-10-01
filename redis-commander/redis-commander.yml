@@ -8,7 +8,7 @@ metadata:
     iconClass: icon-redis
     tags: database,administration,redis
 message: |-
-  Once the application is running, you can view it at https://${ROUTE_PREFIX}.abar.cloud
+  Once the application is running, you can view it at https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
         Commander HTTP User: admin
     Commander HTTP Password: ${HTTP_PASSWORD}
@@ -43,7 +43,7 @@ objects:
           deploymentconfig: ${SERVICE_NAME}
       spec:
         containers:
-          - image: "172.30.150.55:5000/<NAMESPACE_HERE>/redis-commander:0.4.5"
+          - image: "docker-registry.default.svc:5000/<NAMESPACE_HERE>/redis-commander:0.4.5"
             imagePullPolicy: IfNotPresent
             name: ${SERVICE_NAME}
             env:
@@ -103,7 +103,7 @@ objects:
       app: "${SERVICE_NAME}"
     name: "${SERVICE_NAME}"
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: 8080-tcp
     tls:

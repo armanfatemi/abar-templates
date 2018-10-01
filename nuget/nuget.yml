@@ -109,7 +109,7 @@ objects:
       app: ${NUGET_NAME}
     name: ${NUGET_NAME}
   spec:
-    host: ${NUGET_ROUTE_PREFIX}.abar.cloud
+    host: ${NUGET_ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: 8080-tcp
     tls:

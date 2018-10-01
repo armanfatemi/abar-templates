@@ -23,7 +23,7 @@ message: |-
 
     It can take up to 10mins for Jenkins to start due to plugins being installed. You can check the pod
     logs to see progress. If the deployment fails, click on Deploy to try again.
-    Once the pod is ready, login to the web interface on: https://${ROUTE_PREFIX}.abar.cloud
+    Once the pod is ready, login to the web interface on: https://${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
 
     See docs at https://docs.abarcloud.com/learn/continuous-integration.html
 
@@ -36,7 +36,7 @@ objects:
       haproxy.router.openshift.io/timeout: 4m
     name: jenkins
   spec:
-    host: ${ROUTE_PREFIX}.abar.cloud
+    host: ${ROUTE_PREFIX}.<PRIVATE_ROUTE_HOSTNAME_HERE>
     port:
       targetPort: web
     tls:
@@ -78,9 +78,7 @@ objects:
         - env:
           - name: JENKINS_PASSWORD
             value: ${JENKINS_PASSWORD}
-          - name: INSTALL_PLUGINS
-            value: "pipeline-github:2.0,pipeline-githubnotify-step:1.0.4,github-branch-source:2.3.3,github-scm-trait-notification-context:1.1"
-          image: "openshift/jenkins-2-centos7:v3.10"
+          image: "docker-registry.default.svc:5000/<NAMESPACE_HERE>/jenkins:2-centos7-oc-v3.10"
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 2
@@ -169,7 +167,7 @@ parameters:
   required: true
   value: 2Gi
 - name: ROUTE_PREFIX
-  displayName: Route prefix for .abar.cloud
+  displayName: Route prefix for .<PRIVATE_ROUTE_HOSTNAME_HERE>
   description: Leave it empty for a random prefix. If you need to customize it, we recommend "jenkins-MyProjectHere".
     Must be unique across all projects, and contain only lower-case letters, numbers and dashes.
   generate: expression
